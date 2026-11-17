@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070d1b">
+<title>Learn Sudoku | Alislamiah AATB Games</title>
+<link rel="icon" href="icon.png">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ font-family:Inter,Arial,sans-serif;
+ background:radial-gradient(ellipse at top,#142b54,#070d1b 65%);
+ color:white;min-height:100vh;
+}
+header{
+ height:75px;padding:0 6%;
+ display:flex;align-items:center;justify-content:space-between;
+ border-bottom:1px solid #ffffff12;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:43px;height:43px;border-radius:12px;object-fit:cover}
+.brand h2{font-size:17px}
+.brand small{display:block;color:#7185a7;font-size:9px;letter-spacing:1px;margin-top:4px}
+.back{
+ color:#9fc3ff;text-decoration:none;font-size:13px;
+ padding:10px 15px;border:1px solid #ffffff20;border-radius:10px;
+}
+main{max-width:850px;margin:auto;padding:45px 20px 65px}
+.hero{text-align:center;margin-bottom:35px}
+.hero .tag{font-size:10px;letter-spacing:3px;color:#62a1ff;font-weight:800}
+.hero h1{font-size:clamp(29px,6vw,42px);margin:14px 0}
+.hero h1 span{color:#65a5ff}
+.hero p{color:#8e9eb9;font-size:13px;line-height:1.8}
+.lesson{
+ background:linear-gradient(145deg,#14213b,#0c1629);
+ border:1px solid #ffffff12;border-radius:19px;
+ padding:24px;margin-bottom:17px;
+}
+.lesson h2{font-size:18px;margin-bottom:12px}
+.lesson p{font-size:13px;line-height:1.9;color:#a4b2c9}
+.rules{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px
+}
+.rule{
+ background:#0b1930;border:1px solid #ffffff10;
+ padding:17px 10px;border-radius:13px;text-align:center;
+}
+.rule .number{font-size:25px;color:#62a3ff;font-weight:900}
+.rule h3{font-size:12px;margin:9px 0}
+.rule p{font-size:10px;color:#8293af;line-height:1.6}
+.demo-wrap{margin:20px auto;max-width:310px}
+.demo{
+ display:grid;grid-template-columns:repeat(9,1fr);
+ border:2px solid #8dbbff;border-radius:5px;overflow:hidden;
+}
+.cell{
+ aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+ background:#101f38;border:1px solid #30415d;
+ color:#b9d5ff;font-size:13px;font-weight:700;
+}
+.cell:nth-child(3n){border-right:2px solid #759dce}
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54){border-bottom:2px solid #759dce}
+.cell.active{background:#2455a0;color:white}
+.cell.highlight{background:#1a365e}
+.tip{
+ padding:17px;border-radius:13px;background:#102a45;
+ border:1px solid #285b87;color:#a9d9ff;
+ font-size:12px;line-height:1.8;margin-top:15px;
+}
+.practice{
+ text-align:center;padding:27px 20px;
+ border:1px solid #3979c9;border-radius:19px;
+ background:linear-gradient(120deg,#102e55,#13213b);
+ margin-top:25px;
+}
+.practice h2{font-size:20px;margin-bottom:10px}
+.practice p{color:#9cb0ce;font-size:12px;line-height:1.8}
+button{
+ margin-top:18px;padding:14px 25px;border:0;border-radius:11px;
+ background:#397cff;color:white;font-weight:800;font-size:13px;cursor:pointer;
+}
+footer{text-align:center;color:#61718c;font-size:10px;padding:25px}
+@media(max-width:550px){
+ main{padding:35px 15px}
+ .rules{grid-template-columns:1fr}
+ .rule{display:flex;align-items:center;gap:15px;text-align:left}
+ .rule .number{min-width:35px}
+}
+</style>
+</head>
+
+<body>
+<header>
+ <div class="brand">
+  <img src="icon.png" alt="Sudoku">
+  <div><h2>Sudoku</h2><small>ALISLAMIAH AATB GAMES</small></div>
+ </div>
+ <a href="index.html" class="back">← Home</a>
+</header>
+
+<main>
+ <section class="hero">
+  <div class="tag">SUDOKU ACADEMY</div>
+  <h1>Learn <span>Sudoku</span></h1>
+  <p>New to Sudoku? Don't worry. Learn the rules<br>and become a better player step by step.</p>
+ </section>
+
+ <section class="lesson">
+  <h2>01. What is Sudoku?</h2>
+  <p>
+   Sudoku is a logic puzzle played on a 9×9 grid.
+   Your mission is to fill every empty cell with numbers from 1 to 9.
+   You don't need mathematics. You only need logic and concentration.
+  </p>
+  <div class="demo-wrap">
+   <div class="demo" id="demo"></div>
+  </div>
+ </section>
+
+ <section class="lesson">
+  <h2>02. The three golden rules</h2>
+  <p>Every number from 1 to 9 must appear exactly once in each of these areas:</p>
+
+  <div class="rules">
+   <div class="rule">
+    <div class="number">↔</div>
+    <div><h3>Rows</h3><p>No repeated numbers in the same horizontal row.</p></div>
+   </div>
+   <div class="rule">
+    <div class="number">↕</div>
+    <div><h3>Columns</h3><p>No repeated numbers in the same vertical column.</p></div>
+   </div>
+   <div class="rule">
+    <div class="number">▦</div>
+    <div><h3>3×3 Boxes</h3><p>Every small box must contain numbers 1 to 9.</p></div>
+   </div>
+  </div>
+ </section>
+
+ <section class="lesson">
+  <h2>03. How to play?</h2>
+  <p>
+   1. Select an empty cell.<br>
+   2. Choose a number from 1 to 9.<br>
+   3. Check its row, column and 3×3 box.<br>
+   4. If the number doesn't break any rule, keep it.<br>
+   5. Complete all 81 cells to win!
+  </p>
+ </section>
+
+ <section class="lesson">
+  <h2>04. Helpful tips</h2>
+  <p>
+   • Start with rows or boxes that already have many numbers.<br>
+   • Look for numbers that can fit in only one position.<br>
+   • Use Notes to remember possible numbers.<br>
+   • Take your time. Sudoku is about thinking, not rushing.
+  </p>
+  <div class="tip">
+   💡 <b>Pro Tip:</b> Never guess randomly. Look for clues and eliminate impossible numbers.
+  </div>
+ </section>
+
+ <section class="practice">
+  <h2>Ready to play?</h2>
+  <p>Now that you know the rules, it's time to challenge your mind!</p>
+  <button onclick="location.href='index.html'">Start Playing →</button>
+ </section>
+</main>
+
+<footer>
+ Powered by Alislamiah AATB Games · © 2026
+</footer>
+
+<script>
+const demo = document.getElementById("demo");
+const values = [
+5,3,0,0,7,0,0,0,0,
+6,0,0,1,9,5,0,0,0,
+0,9,8,0,0,0,0,6,0,
+8,0,0,0,6,0,0,0,3,
+4,0,0,8,0,3,0,0,1,
+7,0,0,0,2,0,0,0,6,
+0,6,0,0,0,0,2,8,0,
+0,0,0,4,1,9,0,0,5,
+0,0,0,0,8,0,0,7,9
+];
+values.forEach((v,i)=>{
+ const cell=document.createElement("div");
+ cell.className="cell";
+ cell.textContent=v||"";
+ if(i===2||i===11||i===20)cell.classList.add("active");
+ if(i===3||i===12||i===21)cell.classList.add("highlight");
+ demo.appendChild(cell);
+});
+</script>
+</body>
+</html>
