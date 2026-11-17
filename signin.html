@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070d1b">
+
+<title>Sign In | Alislamiah AATB Games</title>
+
+<link rel="icon" href="icon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#070d1b;
+    --blue:#3978ff;
+    --cyan:#48c8ff;
+    --text:#ffffff;
+    --muted:#8997b2;
+}
+
+body{
+    min-height:100vh;
+    font-family:'Inter',sans-serif;
+    background:
+    radial-gradient(ellipse at 50% 0%,rgba(37,103,255,.19),transparent 55%),
+    radial-gradient(ellipse at 100% 100%,rgba(0,180,255,.08),transparent 45%),
+    var(--bg);
+    color:var(--text);
+    display:flex;
+    flex-direction:column;
+    overflow-x:hidden;
+}
+
+header{
+    width:100%;
+    padding:25px 7%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.brand img{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    object-fit:cover;
+}
+
+.brand-name{
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:-.5px;
+}
+
+.brand-name span{
+    color:#5595ff;
+}
+
+.header-label{
+    font-size:11px;
+    font-weight:700;
+    color:#8c9bb7;
+    letter-spacing:1.5px;
+}
+
+main{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:45px 20px 70px;
+}
+
+.login-container{
+    width:100%;
+    max-width:460px;
+    text-align:center;
+    animation:appear .8s ease;
+}
+
+@keyframes appear{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.game-icon{
+    width:100px;
+    height:100px;
+    margin:0 auto 32px;
+    border-radius:30px;
+    background:linear-gradient(145deg,#183b83,#101b36);
+    border:1px solid rgba(95,155,255,.3);
+    box-shadow:0 15px 55px rgba(31,102,255,.22);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.game-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.game-icon .fallback{
+    font-size:42px;
+}
+
+.eyebrow{
+    font-size:11px;
+    font-weight:800;
+    color:#5595ff;
+    letter-spacing:3px;
+    margin-bottom:17px;
+}
+
+h1{
+    font-size:clamp(27px,6vw,36px);
+    font-weight:900;
+    letter-spacing:-1.5px;
+    line-height:1.2;
+    margin-bottom:17px;
+}
+
+h1 span{
+    background:linear-gradient(90deg,#65a0ff,#42d5ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.description{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.9;
+    max-width:350px;
+    margin:0 auto 34px;
+}
+
+.login-card{
+    background:linear-gradient(145deg,rgba(24,38,68,.83),rgba(12,21,40,.94));
+    border:1px solid rgba(115,153,220,.17);
+    border-radius:23px;
+    padding:25px;
+    box-shadow:0 20px 65px rgba(0,0,0,.25);
+}
+
+.card-title{
+    font-size:13px;
+    color:#c3cee2;
+    font-weight:700;
+    margin-bottom:19px;
+}
+
+.continue-btn{
+    width:100%;
+    min-height:59px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(110deg,#3475ff,#2860dc);
+    color:white;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    transition:.25s;
+    box-shadow:0 8px 25px rgba(47,107,255,.25);
+}
+
+.continue-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 32px rgba(47,107,255,.4);
+}
+
+.continue-btn:active{
+    transform:scale(.98);
+}
+
+.ai-logo{
+    width:25px;
+    height:25px;
+    border-radius:7px;
+    object-fit:cover;
+    background:white;
+}
+
+.secure-info{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    margin-top:19px;
+    color:#7789a8;
+    font-size:11px;
+}
+
+.secure-info svg{
+    width:14px;
+    height:14px;
+    color:#56a5ff;
+}
+
+.status{
+    display:none;
+    margin-top:17px;
+    color:#8dbaff;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.status.show{
+    display:block;
+}
+
+footer{
+    text-align:center;
+    padding:22px 15px 27px;
+    color:#586782;
+    font-size:10px;
+    letter-spacing:.5px;
+}
+
+footer span{
+    color:#8295b5;
+}
+
+@media(max-width:500px){
+    header{
+        padding:20px;
+    }
+
+    .header-label{
+        font-size:9px;
+    }
+
+    main{
+        padding:30px 20px 50px;
+    }
+
+    .login-card{
+        padding:21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">
+        <img src="icon.png" alt="Alislamiah">
+        <div class="brand-name">
+            Alislamiah <span>Games</span>
+        </div>
+    </div>
+
+    <div class="header-label">
+        AATB GAMES
+    </div>
+</header>
+
+<main>
+
+<div class="login-container">
+
+    <div class="game-icon">
+        <img src="icon.png" alt="Game Logo"
+        onerror="this.style.display='none';this.parentElement.innerHTML='<span class=fallback>🎮</span>'">
+    </div>
+
+    <div class="eyebrow">
+        ALISLAMIAH GAMING
+    </div>
+
+    <h1>
+        Welcome to<br>
+        <span>Alislamiah AATB Games</span>
+    </h1>
+
+    <p class="description">
+        Tap the button below to continue signing you in.
+    </p>
+
+    <div class="login-card">
+
+        <div class="card-title">
+            Continue with your Alislamiah account
+        </div>
+
+        <button class="continue-btn" id="continueBtn">
+
+            <img src="https://alislamiah.github.io/Alislamiah-AI/icon.png"
+            class="ai-logo"
+            alt="Alislamiah AI">
+
+            <span>Continue with Alislamiah AI</span>
+
+        </button>
+
+        <div class="status" id="status">
+            Waiting for account confirmation...
+        </div>
+
+        <div class="secure-info">
+            <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+                <rect x="4" y="10" width="16" height="11" rx="2"/>
+                <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+            </svg>
+            Secure account authentication
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+<footer>
+    © 2026 <span>Alislamiah AATB Games</span>.
+    All rights reserved.
+</footer>
+
+<script>
+const AI_URL = "https://alislamiah.github.io/Alislamiah-AI/continue.html";
+
+const btn = document.getElementById("continueBtn");
+const statusBox = document.getElementById("status");
+
+let authWindow = null;
+
+function showStatus(message){
+    statusBox.textContent = message;
+    statusBox.classList.add("show");
+}
+
+// إذا كانت هناك جلسة سابقة
+const savedSession = localStorage.getItem("aatb_games_session");
+
+if(savedSession){
+    try{
+        const session = JSON.parse(savedSession);
+
+        if(session.uid && session.accessToken){
+            window.location.replace("index.html");
+        }
+    }catch(e){
+        localStorage.removeItem("aatb_games_session");
+    }
+}
+
+btn.addEventListener("click",()=>{
+
+    btn.disabled = true;
+    btn.style.opacity = ".7";
+
+    showStatus("Opening Alislamiah AI account selection...");
+
+    const url = AI_URL +
+        "?provider=alislamiah" +
+        "&app_id=aatb-games";
+
+    authWindow = window.open(
+        url,
+        "AlislamiahAuthentication",
+        "width=520,height=720,left=200,top=80"
+    );
+
+    if(!authWindow){
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        showStatus("Please allow popups to continue.");
+    }
+});
+
+// استقبال نتيجة اختيار الحساب
+window.addEventListener("message",async(event)=>{
+
+    if(event.origin !== "https://alislamiah.github.io"){
+        return;
+    }
+
+    const data = event.data;
+
+    if(!data || data.status !== "SUCCESS"){
+        return;
+    }
+
+    if(!data.accessToken || !data.user || !data.user.uid){
+        showStatus("Authentication response is incomplete.");
+        return;
+    }
+
+    const session = {
+        uid: data.user.uid,
+        email: data.user.email || "",
+        displayName: data.user.displayName || "",
+        photoURL: data.user.photoURL || "",
+        providerUsed: data.user.providerUsed || "alislamiah",
+        accessToken: data.accessToken,
+        loginTime: Date.now()
+    };
+
+    localStorage.setItem(
+        "aatb_games_session",
+        JSON.stringify(session)
+    );
+
+    showStatus("Authentication successful! Entering the game...");
+
+    if(authWindow && !authWindow.closed){
+        authWindow.close();
+    }
+
+    setTimeout(()=>{
+        window.location.replace("index.html");
+    },700);
+
+});
+</script>
+
+</body>
+</html>
