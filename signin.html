@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -354,28 +353,30 @@ const statusBox = document.getElementById("status");
 
 let authWindow = null;
 
-function showStatus(message){
+// ===== Shared session helper (must match index.html) =====
+function hasValidSession() {
+    try {
+        const raw = localStorage.getItem("aatb_games_session");
+        if (!raw) return false;
+        const session = JSON.parse(raw);
+        return !!(session && session.uid && session.accessToken);
+    } catch (e) {
+        localStorage.removeItem("aatb_games_session");
+        return false;
+    }
+}
+
+function showStatus(message) {
     statusBox.textContent = message;
     statusBox.classList.add("show");
 }
 
-// إذا كانت هناك جلسة سابقة
-const savedSession = localStorage.getItem("aatb_games_session");
-
-if(savedSession){
-    try{
-        const session = JSON.parse(savedSession);
-
-        if(session.uid && session.accessToken){
-            window.location.replace("index.html");
-        }
-    }catch(e){
-        localStorage.removeItem("aatb_games_session");
-    }
+// Already logged in → go to main page
+if (hasValidSession()) {
+    window.location.replace("index.html");
 }
 
-btn.addEventListener("click",()=>{
-
+btn.addEventListener("click", () => {
     btn.disabled = true;
     btn.style.opacity = ".7";
 
@@ -391,31 +392,32 @@ btn.addEventListener("click",()=>{
         "width=520,height=720,left=200,top=80"
     );
 
-    if(!authWindow){
+    if (!authWindow) {
         btn.disabled = false;
         btn.style.opacity = "1";
         showStatus("Please allow popups to continue.");
     }
 });
 
-// استقبال نتيجة اختيار الحساب
-window.addEventListener("message",async(event)=>{
-
-    if(event.origin !== "https://alislamiah.github.io"){
+// Receive result from continue.html
+window.addEventListener("message", (event) => {
+    // Accept only from Alislamiah domain
+    if (event.origin !== "https://alislamiah.github.io") {
         return;
     }
 
     const data = event.data;
 
-    if(!data || data.status !== "SUCCESS"){
+    if (!data || data.status !== "SUCCESS") {
         return;
     }
 
-    if(!data.accessToken || !data.user || !data.user.uid){
+    if (!data.accessToken || !data.user || !data.user.uid) {
         showStatus("Authentication response is incomplete.");
         return;
     }
 
+    // Save session in the same format both pages expect
     const session = {
         uid: data.user.uid,
         email: data.user.email || "",
@@ -426,21 +428,17 @@ window.addEventListener("message",async(event)=>{
         loginTime: Date.now()
     };
 
-    localStorage.setItem(
-        "aatb_games_session",
-        JSON.stringify(session)
-    );
+    localStorage.setItem("aatb_games_session", JSON.stringify(session));
 
     showStatus("Authentication successful! Entering the game...");
 
-    if(authWindow && !authWindow.closed){
+    if (authWindow && !authWindow.closed) {
         authWindow.close();
     }
 
-    setTimeout(()=>{
+    setTimeout(() => {
         window.location.replace("index.html");
-    },700);
-
+    }, 700);
 });
 </script>
 
