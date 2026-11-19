@@ -1,436 +1,230 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#070d1b">
-
-<title>Sign In | Alislamiah AATB Games</title>
-
-<link rel="icon" href="icon.png">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+<title>تسجيل الدخول - Alislamiah AI</title>
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Arial,sans-serif}
+body{background:#0b1020;color:#fff;min-height:100vh;display:flex;justify-content:center;align-items:center}
+.bg{position:fixed;inset:0;background:radial-gradient(circle at 15% 20%,rgba(0,119,255,.35),transparent 35%),radial-gradient(circle at 85% 25%,rgba(0,195,255,.25),transparent 30%),#0b1020;z-index:0}
+.container{position:relative;z-index:1;width:92%;max-width:400px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:40px 30px;backdrop-filter:blur(20px);box-shadow:0 25px 50px rgba(0,0,0,.45);text-align:center}
+.logo{width:75px;height:75px;margin:0 auto 20px;border-radius:20px;background:linear-gradient(135deg,#0077ff,#00c3ff);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;box-shadow:0 8px 25px rgba(0,150,255,.4)}
+h1{font-size:24px;margin-bottom:6px}
+.subtitle{color:#9fb8e0;font-size:14px;margin-bottom:28px}
+.input-group{margin-bottom:16px;text-align:right}
+.input-group label{display:block;font-size:13px;color:#a0b8d8;margin-bottom:6px}
+.input-group input{width:100%;padding:14px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:12px;color:#fff;font-size:15px;outline:none}
+.input-group input:focus{border-color:#00c3ff}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#0077ff,#00c3ff);color:#fff;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px}
 
-:root{
-    --bg:#070d1b;
-    --blue:#3978ff;
-    --cyan:#48c8ff;
-    --text:#ffffff;
-    --muted:#8997b2;
-}
+/* فاصل بين طرق الدخول */
+.divider{display:flex;align-items:center;margin:20px 0;color:#7a93b4;font-size:13px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.15)}
+.divider span{padding:0 12px}
 
-body{
-    min-height:100vh;
-    font-family:'Inter',sans-serif;
-    background:
-    radial-gradient(ellipse at 50% 0%,rgba(37,103,255,.19),transparent 55%),
-    radial-gradient(ellipse at 100% 100%,rgba(0,180,255,.08),transparent 45%),
-    var(--bg);
-    color:var(--text);
-    display:flex;
-    flex-direction:column;
-    overflow-x:hidden;
-}
+/* زر GitHub */
+.btn-github{width:100%;padding:13px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:#24292e;color:#fff;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s ease}
+.btn-github:hover{background:#2f363d;border-color:rgba(255,255,255,.4)}
+.btn-github svg{width:20px;height:20px;fill:currentColor}
 
-header{
-    width:100%;
-    padding:25px 7%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
+.message{margin-top:14px;font-size:14px;min-height:20px}
+.message.error{color:#ff6b6b}.message.success{color:#4ade80}
+.links{margin-top:22px;font-size:14px;color:#9fb8e0}
+.links a{color:#00c3ff;text-decoration:none;font-weight:600}
 
-.brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.brand img{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    object-fit:cover;
-}
-
-.brand-name{
-    font-size:17px;
-    font-weight:800;
-    letter-spacing:-.5px;
-}
-
-.brand-name span{
-    color:#5595ff;
-}
-
-.header-label{
-    font-size:11px;
-    font-weight:700;
-    color:#8c9bb7;
-    letter-spacing:1.5px;
-}
-
-main{
-    flex:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:45px 20px 70px;
-}
-
-.login-container{
-    width:100%;
-    max-width:460px;
-    text-align:center;
-    animation:appear .8s ease;
-}
-
-@keyframes appear{
-    from{
-        opacity:0;
-        transform:translateY(25px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-.game-icon{
-    width:100px;
-    height:100px;
-    margin:0 auto 32px;
-    border-radius:30px;
-    background:linear-gradient(145deg,#183b83,#101b36);
-    border:1px solid rgba(95,155,255,.3);
-    box-shadow:0 15px 55px rgba(31,102,255,.22);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-}
-
-.game-icon img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.game-icon .fallback{
-    font-size:42px;
-}
-
-.eyebrow{
-    font-size:11px;
-    font-weight:800;
-    color:#5595ff;
-    letter-spacing:3px;
-    margin-bottom:17px;
-}
-
-h1{
-    font-size:clamp(27px,6vw,36px);
-    font-weight:900;
-    letter-spacing:-1.5px;
-    line-height:1.2;
-    margin-bottom:17px;
-}
-
-h1 span{
-    background:linear-gradient(90deg,#65a0ff,#42d5ff);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-}
-
-.description{
-    color:var(--muted);
-    font-size:14px;
-    line-height:1.9;
-    max-width:350px;
-    margin:0 auto 34px;
-}
-
-.login-card{
-    background:linear-gradient(145deg,rgba(24,38,68,.83),rgba(12,21,40,.94));
-    border:1px solid rgba(115,153,220,.17);
-    border-radius:23px;
-    padding:25px;
-    box-shadow:0 20px 65px rgba(0,0,0,.25);
-}
-
-.card-title{
-    font-size:13px;
-    color:#c3cee2;
-    font-weight:700;
-    margin-bottom:19px;
-}
-
-.continue-btn{
-    width:100%;
-    min-height:59px;
-    border:none;
-    border-radius:14px;
-    background:linear-gradient(110deg,#3475ff,#2860dc);
-    color:white;
-    font-size:14px;
-    font-weight:800;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    transition:.25s;
-    box-shadow:0 8px 25px rgba(47,107,255,.25);
-}
-
-.continue-btn:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 32px rgba(47,107,255,.4);
-}
-
-.continue-btn:active{
-    transform:scale(.98);
-}
-
-.ai-logo{
-    width:25px;
-    height:25px;
-    border-radius:7px;
-    object-fit:cover;
-    background:white;
-}
-
-.secure-info{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-    margin-top:19px;
-    color:#7789a8;
-    font-size:11px;
-}
-
-.secure-info svg{
-    width:14px;
-    height:14px;
-    color:#56a5ff;
-}
-
-.status{
-    display:none;
-    margin-top:17px;
-    color:#8dbaff;
-    font-size:12px;
-    line-height:1.7;
-}
-
-.status.show{
-    display:block;
-}
-
-footer{
-    text-align:center;
-    padding:22px 15px 27px;
-    color:#586782;
-    font-size:10px;
-    letter-spacing:.5px;
-}
-
-footer span{
-    color:#8295b5;
-}
-
-@media(max-width:500px){
-    header{
-        padding:20px;
-    }
-
-    .header-label{
-        font-size:9px;
-    }
-
-    main{
-        padding:30px 20px 50px;
-    }
-
-    .login-card{
-        padding:21px;
-    }
-}
+/* نافذة حفظ كلمة المرور */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;justify-content:center;align-items:center;z-index:100}
+.modal-overlay.show{display:flex}
+.modal{background:#12182b;border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:28px;width:90%;max-width:360px;text-align:center}
+.modal h3{margin-bottom:10px;font-size:18px}
+.modal p{color:#9fb8e0;font-size:14px;margin-bottom:22px;line-height:1.5}
+.modal-btns{display:flex;gap:12px}
+.modal-btns button{flex:1;padding:12px;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
+.btn-yes{background:linear-gradient(135deg,#0077ff,#00c3ff);color:#fff}
+.btn-no{background:rgba(255,255,255,.1);color:#ccc}
 </style>
 </head>
-
 <body>
+<div class="bg"></div>
 
-<header>
-    <div class="brand">
-        <img src="icon.png" alt="Alislamiah">
-        <div class="brand-name">
-            Alislamiah <span>Games</span>
-        </div>
-    </div>
+<div class="container">
+  <div class="logo">AI</div>
+  <h1>تسجيل الدخول</h1>
+  <p class="subtitle">مرحباً بك مجدداً في متصفح الإسلامية الذكي</p>
 
-    <div class="header-label">
-        AATB GAMES
-    </div>
-</header>
+  <div class="input-group">
+    <label>البريد الإلكتروني</label>
+    <input type="email" id="email" placeholder="example@email.com">
+  </div>
 
-<main>
+  <div class="input-group">
+    <label>كلمة المرور</label>
+    <input type="password" id="password" placeholder="••••••••">
+  </div>
 
-<div class="login-container">
+  <button class="btn" id="loginBtn">دخول</button>
 
-    <div class="game-icon">
-        <img src="icon.png" alt="Game Logo"
-        onerror="this.style.display='none';this.parentElement.innerHTML='<span class=fallback>🎮</span>'">
-    </div>
+  <div class="divider"><span>أو</span></div>
 
-    <div class="eyebrow">
-        ALISLAMIAH GAMING
-    </div>
+  <button class="btn-github" id="githubBtn">
+    <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    Continue with GitHub
+  </button>
 
-    <h1>
-        Welcome to<br>
-        <span>Alislamiah AATB Games</span>
-    </h1>
+  <div class="message" id="msg"></div>
 
-    <p class="description">
-        Tap the button below to continue signing you in.
-    </p>
-
-    <div class="login-card">
-
-        <div class="card-title">
-            Continue with your Alislamiah account
-        </div>
-
-        <button class="continue-btn" id="continueBtn">
-
-            <img src="https://alislamiah.github.io/Alislamiah-AI/icon.png"
-            class="ai-logo"
-            alt="Alislamiah AI">
-
-            <span>Continue with Alislamiah AI</span>
-
-        </button>
-
-        <div class="status" id="status">
-            Waiting for account confirmation...
-        </div>
-
-        <div class="secure-info">
-            <svg viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2">
-                <rect x="4" y="10" width="16" height="11" rx="2"/>
-                <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
-            </svg>
-            Secure account authentication
-        </div>
-
-    </div>
-
+  <div class="links">
+    ليس لديك حساب؟ <a href="signup.html">إنشاء حساب جديد</a>
+  </div>
 </div>
 
-</main>
+<!-- سؤال حفظ كلمة المرور -->
+<div class="modal-overlay" id="saveModal">
+  <div class="modal">
+    <h3>هل تريد حفظ كلمة المرور؟</h3>
+    <p>سيتم حفظها في صفحة كلمات المرور المحفوظة حتى تتمكن من استرجاعها لاحقاً.</p>
+    <div class="modal-btns">
+      <button class="btn-yes" id="saveYesBtn">نعم، احفظها</button>
+      <button class="btn-no" id="saveNoBtn">لا</button>
+    </div>
+  </div>
+</div>
 
-<footer>
-    © 2026 <span>Alislamiah AATB Games</span>.
-    All rights reserved.
-</footer>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signInWithPopup, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 
-<script>
-const AI_URL = "https://alislamiah.github.io/Alislamiah-AI/continue.html";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBrv1ky0Br5nLb68uvdXE3o6QdzTKpIU4g",
+    authDomain: "alislamiah-ai-34202.firebaseapp.com",
+    projectId: "alislamiah-ai-34202",
+    storageBucket: "alislamiah-ai-34202.firebasestorage.app",
+    messagingSenderId: "683051452829",
+    appId: "1:683051452829:web:e96e40422c7f31e563c774",
+    measurementId: "G-LFQLND010S"
+  };
 
-const btn = document.getElementById("continueBtn");
-const statusBox = document.getElementById("status");
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const githubProvider = new GithubAuthProvider();
 
-let authWindow = null;
-let waitingForAuth = false;
-let redirected = false;
+  let tempData = null;
 
-function showStatus(message) {
-    statusBox.textContent = message;
-    statusBox.classList.add("show");
-}
+  function getSavedPasswords() {
+    return JSON.parse(localStorage.getItem("alislamiah_saved_passwords") || "[]");
+  }
 
-// اذهب للرئيسية مباشرة وانسَ هذه الصفحة
-function goHome() {
-    if (redirected) return;
-    redirected = true;
-    showStatus("Authentication successful! Entering the game...");
-    if (authWindow && !authWindow.closed) {
-        try { authWindow.close(); } catch (e) {}
-    }
-    window.location.replace("index.html");
-}
+  function setCurrentUser(user) {
+    localStorage.setItem("alislamiah_current_user", JSON.stringify(user));
+  }
 
-btn.addEventListener("click", () => {
-    btn.disabled = true;
-    btn.style.opacity = ".7";
-    waitingForAuth = true;
+  // 1. تسجيل الدخول بالبريد وكلمة المرور
+  async function login() {
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const msg = document.getElementById("msg");
 
-    showStatus("Opening Alislamiah AI account selection...");
+    msg.textContent = "";
+    msg.className = "message";
 
-    const url = AI_URL +
-        "?provider=alislamiah" +
-        "&app_id=aatb-games";
-
-    authWindow = window.open(
-        url,
-        "AlislamiahAuthentication",
-        "width=520,height=720,left=200,top=80"
-    );
-
-    if (!authWindow) {
-        waitingForAuth = false;
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        showStatus("Please allow popups to continue.");
-        return;
+    if (!email || !password) {
+      msg.className = "message error";
+      msg.textContent = "يرجى إدخال البريد وكلمة المرور";
+      return;
     }
 
-    // راقب إغلاق نافذة التحقق → عند الإغلاق اذهب للرئيسية مباشرة
-    const popupWatcher = setInterval(() => {
-        if (!authWindow || authWindow.closed) {
-            clearInterval(popupWatcher);
-            if (waitingForAuth) {
-                goHome();
-            }
-        }
-    }, 400);
-});
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-// عند رجوع التركيز للصفحة (بعد صفحة التحقق) → اذهب للرئيسية مباشرة
-window.addEventListener("focus", () => {
-    if (waitingForAuth) {
-        goHome();
+      tempData = { 
+        id: user.uid,
+        name: user.displayName || email.split('@')[0], 
+        email: user.email, 
+        password: password 
+      };
+
+      document.getElementById("saveModal").classList.add("show");
+    } catch (error) {
+      msg.className = "message error";
+      if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
+        msg.textContent = "البريد أو كلمة المرور غير صحيحة";
+      } else {
+        msg.textContent = "حدث خطأ أثناء تسجيل الدخول: " + error.message;
+      }
     }
-});
+  }
 
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && waitingForAuth) {
-        goHome();
+  // 2. تسجيل الدخول بواسطة GitHub
+  async function loginWithGitHub() {
+    const msg = document.getElementById("msg");
+    msg.textContent = "";
+    msg.className = "message";
+
+    try {
+      const result = await signInWithPopup(auth, githubProvider);
+      const user = result.user;
+
+      tempData = { 
+        id: user.uid,
+        name: user.displayName || user.email?.split('@')[0] || "مستخدم GitHub", 
+        email: user.email || "حساب GitHub", 
+        password: "تسجيل عبر GitHub" 
+      };
+
+      document.getElementById("saveModal").classList.add("show");
+    } catch (error) {
+      msg.className = "message error";
+      if (error.code === "auth/account-exists-with-different-credential") {
+        msg.textContent = "هذا البريد مسجل بالفعل بأسلوب دخول آخر";
+      } else {
+        msg.textContent = "حدث خطأ أثناء تسجيل الدخول بـ GitHub: " + error.message;
+      }
     }
-});
+  }
 
-// استقبال نتيجة postMessage إن وصلت
-window.addEventListener("message", (event) => {
-    if (event.origin !== "https://alislamiah.github.io") return;
+  // عند النقر على "نعم، احفظها" -> الحفظ والتحويل المباشر لـ https://Alislamiah.github.io/Alislamiah-AI/saved.passwords.html
+  function saveYes() {
+    if (!tempData) return;
 
-    const data = event.data;
-    if (!data || data.status !== "SUCCESS") return;
+    setCurrentUser({ id: tempData.id, name: tempData.name, email: tempData.email });
 
-    waitingForAuth = true;
-    goHome();
-});
+    const saved = getSavedPasswords();
+    const exists = saved.find(s => s.email === tempData.email);
+
+    if (!exists) {
+      saved.push({
+        name: tempData.name,
+        email: tempData.email,
+        password: tempData.password,
+        savedAt: new Date().toISOString()
+      });
+      localStorage.setItem("alislamiah_saved_passwords", JSON.stringify(saved));
+    }
+
+    document.getElementById("saveModal").classList.remove("show");
+    window.location.href = "saved.passwords.html"; 
+  }
+
+  // عند النقر على "لا" -> التحويل للرئيسية index.html
+  function saveNo() {
+    if (!tempData) return;
+
+    setCurrentUser({ id: tempData.id, name: tempData.name, email: tempData.email });
+
+    document.getElementById("saveModal").classList.remove("show");
+    window.location.href = "index.html"; 
+  }
+
+  // ربط الأحداث والأزرار
+  document.getElementById("loginBtn").addEventListener("click", login);
+  document.getElementById("githubBtn").addEventListener("click", loginWithGitHub);
+  document.getElementById("saveYesBtn").addEventListener("click", saveYes);
+  document.getElementById("saveNoBtn").addEventListener("click", saveNo);
+  document.getElementById("password").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") login();
+  });
 </script>
-
 </body>
 </html>
