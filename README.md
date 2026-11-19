@@ -185,7 +185,7 @@ main{
     box-shadow:0 20px 65px rgba(0,0,0,.25);
 }
 
-.auth-gate.show{display:block}
+.auth-gate.show{display:block !important}
 
 .auth-gate h3{
     font-size:18px;
@@ -555,35 +555,54 @@ function getSession() {
     }
 }
 
+function setLoggedInUI(session) {
+    // المستخدم مسجّل → لا تطلب منه تسجيل الدخول أبدًا
+    authGate.classList.remove("show");
+    authGate.style.display = "none";
+    headerLoginBtn.classList.remove("show");
+    headerLoginBtn.style.display = "none";
+    userPill.classList.add("show");
+    userPill.style.display = "flex";
+
+    const name = session.displayName || session.email || "User";
+    userName.textContent = name;
+
+    if (session.photoURL) {
+        userAvatar.innerHTML = `<img src="${session.photoURL}" alt="">`;
+    } else {
+        userAvatar.textContent = name.charAt(0).toUpperCase();
+    }
+
+    authStatus.classList.remove("show");
+    waitingForAuth = false;
+}
+
+function setLoggedOutUI() {
+    authGate.classList.add("show");
+    authGate.style.display = "block";
+    headerLoginBtn.classList.add("show");
+    headerLoginBtn.style.display = "inline-flex";
+    userPill.classList.remove("show");
+    userPill.style.display = "none";
+}
+
 function updateUI() {
     const session = getSession();
-
     if (session) {
-        // مسجل دخول
-        authGate.classList.remove("show");
-        headerLoginBtn.classList.remove("show");
-        userPill.classList.add("show");
-
-        const name = session.displayName || session.email || "User";
-        userName.textContent = name;
-
-        if (session.photoURL) {
-            userAvatar.innerHTML = `<img src="${session.photoURL}" alt="">`;
-        } else {
-            userAvatar.textContent = name.charAt(0).toUpperCase();
-        }
-
-        authStatus.classList.remove("show");
-        waitingForAuth = false;
+        setLoggedInUI(session);
     } else {
-        // غير مسجل
-        authGate.classList.add("show");
-        headerLoginBtn.classList.add("show");
-        userPill.classList.remove("show");
+        setLoggedOutUI();
     }
 }
 
 function openLogin() {
+    // إذا مسجّل مسبقًا لا تفتح تسجيل الدخول
+    const session = getSession();
+    if (session) {
+        setLoggedInUI(session);
+        return;
+    }
+
     waitingForAuth = true;
     authStatus.textContent = "Opening Alislamiah AI account selection...";
     authStatus.classList.add("show");
@@ -602,18 +621,13 @@ function openLogin() {
         return;
     }
 
-    // نفس مبدأ صفحة التسجيل: راقب إغلاق نافذة continue
     const popupWatcher = setInterval(() => {
         if (!authWindow || authWindow.closed) {
             clearInterval(popupWatcher);
             if (waitingForAuth) {
-                // عاد من continue → حدّث الواجهة مباشرة
                 updateUI();
                 if (getSession()) {
                     authStatus.textContent = "Signed in successfully!";
-                    authStatus.classList.add("show");
-                } else {
-                    authStatus.textContent = "Returned. If you selected an account, refresh or try again.";
                     authStatus.classList.add("show");
                 }
                 waitingForAuth = false;
@@ -623,7 +637,8 @@ function openLogin() {
 }
 
 function startGame(level) {
-    if (!getSession()) {
+    const session = getSession();
+    if (!session) {
         openLogin();
         return;
     }
@@ -634,36 +649,26 @@ function startGame(level) {
 headerLoginBtn.addEventListener("click", openLogin);
 mainLoginBtn.addEventListener("click", openLogin);
 
-// عند رجوع التركيز من continue → حدّث مباشرة (نفس مبدأ signin)
 window.addEventListener("focus", () => {
-    if (waitingForAuth) {
-        updateUI();
-        if (getSession()) {
-            authStatus.textContent = "Signed in successfully!";
-            authStatus.classList.add("show");
-            waitingForAuth = false;
-        }
-    } else {
-        updateUI();
+    updateUI();
+    if (waitingForAuth && getSession()) {
+        authStatus.textContent = "Signed in successfully!";
+        authStatus.classList.add("show");
+        waitingForAuth = false;
     }
 });
 
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
-        if (waitingForAuth) {
-            updateUI();
-            if (getSession()) {
-                authStatus.textContent = "Signed in successfully!";
-                authStatus.classList.add("show");
-                waitingForAuth = false;
-            }
-        } else {
-            updateUI();
+        updateUI();
+        if (waitingForAuth && getSession()) {
+            authStatus.textContent = "Signed in successfully!";
+            authStatus.classList.add("show");
+            waitingForAuth = false;
         }
     }
 });
 
-// استقبال postMessage من continue
 window.addEventListener("message", (event) => {
     if (event.origin !== "https://alislamiah.github.io") return;
 
@@ -688,12 +693,11 @@ window.addEventListener("message", (event) => {
     }
 
     waitingForAuth = false;
+    setLoggedInUI(session);
     authStatus.textContent = "Signed in successfully!";
     authStatus.classList.add("show");
-    updateUI();
 });
 
-// Splash
 const splash = document.getElementById("splash");
 const app = document.getElementById("app");
 
@@ -703,7 +707,7 @@ setTimeout(() => {
     setTimeout(() => { splash.style.display = "none"; }, 750);
 }, 5000);
 
-// أول تحميل
+// مهم: فحص فوري قبل أي عرض
 updateUI();
 </script>
 
