@@ -352,33 +352,29 @@ const btn = document.getElementById("continueBtn");
 const statusBox = document.getElementById("status");
 
 let authWindow = null;
-
-// ===== Shared session helper (must match index.html) =====
-function hasValidSession() {
-    try {
-        const raw = localStorage.getItem("aatb_games_session");
-        if (!raw) return false;
-        const session = JSON.parse(raw);
-        return !!(session && session.uid && session.accessToken);
-    } catch (e) {
-        localStorage.removeItem("aatb_games_session");
-        return false;
-    }
-}
+let waitingForAuth = false;
+let redirected = false;
 
 function showStatus(message) {
     statusBox.textContent = message;
     statusBox.classList.add("show");
 }
 
-// Already logged in → go to main page
-if (hasValidSession()) {
+// اذهب للرئيسية مباشرة وانسَ هذه الصفحة
+function goHome() {
+    if (redirected) return;
+    redirected = true;
+    showStatus("Authentication successful! Entering the game...");
+    if (authWindow && !authWindow.closed) {
+        try { authWindow.close(); } catch (e) {}
+    }
     window.location.replace("index.html");
 }
 
 btn.addEventListener("click", () => {
     btn.disabled = true;
     btn.style.opacity = ".7";
+    waitingForAuth = true;
 
     showStatus("Opening Alislamiah AI account selection...");
 
@@ -393,52 +389,46 @@ btn.addEventListener("click", () => {
     );
 
     if (!authWindow) {
+        waitingForAuth = false;
         btn.disabled = false;
         btn.style.opacity = "1";
         showStatus("Please allow popups to continue.");
+        return;
+    }
+
+    // راقب إغلاق نافذة التحقق → عند الإغلاق اذهب للرئيسية مباشرة
+    const popupWatcher = setInterval(() => {
+        if (!authWindow || authWindow.closed) {
+            clearInterval(popupWatcher);
+            if (waitingForAuth) {
+                goHome();
+            }
+        }
+    }, 400);
+});
+
+// عند رجوع التركيز للصفحة (بعد صفحة التحقق) → اذهب للرئيسية مباشرة
+window.addEventListener("focus", () => {
+    if (waitingForAuth) {
+        goHome();
     }
 });
 
-// Receive result from continue.html
-window.addEventListener("message", (event) => {
-    // Accept only from Alislamiah domain
-    if (event.origin !== "https://alislamiah.github.io") {
-        return;
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && waitingForAuth) {
+        goHome();
     }
+});
+
+// استقبال نتيجة postMessage إن وصلت
+window.addEventListener("message", (event) => {
+    if (event.origin !== "https://alislamiah.github.io") return;
 
     const data = event.data;
+    if (!data || data.status !== "SUCCESS") return;
 
-    if (!data || data.status !== "SUCCESS") {
-        return;
-    }
-
-    if (!data.accessToken || !data.user || !data.user.uid) {
-        showStatus("Authentication response is incomplete.");
-        return;
-    }
-
-    // Save session in the same format both pages expect
-    const session = {
-        uid: data.user.uid,
-        email: data.user.email || "",
-        displayName: data.user.displayName || "",
-        photoURL: data.user.photoURL || "",
-        providerUsed: data.user.providerUsed || "alislamiah",
-        accessToken: data.accessToken,
-        loginTime: Date.now()
-    };
-
-    localStorage.setItem("aatb_games_session", JSON.stringify(session));
-
-    showStatus("Authentication successful! Entering the game...");
-
-    if (authWindow && !authWindow.closed) {
-        authWindow.close();
-    }
-
-    setTimeout(() => {
-        window.location.replace("index.html");
-    }, 700);
+    waitingForAuth = true;
+    goHome();
 });
 </script>
 
