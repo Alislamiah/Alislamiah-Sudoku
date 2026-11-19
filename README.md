@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -465,29 +464,40 @@ footer span{
 </div>
 
 <script>
-const splash = document.getElementById("splash");
-const app = document.getElementById("app");
+// ===== Shared session helper (must match signin.html) =====
+function hasValidSession() {
+    try {
+        const raw = localStorage.getItem("aatb_games_session");
+        if (!raw) return false;
+        const session = JSON.parse(raw);
+        return !!(session && session.uid && session.accessToken);
+    } catch (e) {
+        localStorage.removeItem("aatb_games_session");
+        return false;
+    }
+}
 
-setTimeout(()=>{
-    splash.classList.add("hide");
-    app.classList.add("show");
-
-    setTimeout(()=>{
-        splash.style.display="none";
-    },750);
-
-},5000);
-
-// Verify saved login session
-const session = localStorage.getItem("aatb_games_session");
-
-if(!session){
+// If no valid session → go to signin immediately
+if (!hasValidSession()) {
     window.location.replace("signin.html");
 }
 
-function startGame(level){
-    localStorage.setItem("sudoku_difficulty",level);
-    window.location.href="game.html";
+// Splash animation
+const splash = document.getElementById("splash");
+const app = document.getElementById("app");
+
+setTimeout(() => {
+    splash.classList.add("hide");
+    app.classList.add("show");
+
+    setTimeout(() => {
+        splash.style.display = "none";
+    }, 750);
+}, 5000);
+
+function startGame(level) {
+    localStorage.setItem("sudoku_difficulty", level);
+    window.location.href = "game.html";
 }
 </script>
 
