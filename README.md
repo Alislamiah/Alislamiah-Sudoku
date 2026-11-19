@@ -119,51 +119,49 @@ header{
     padding:6px 12px 6px 6px;
 }
 
-.user-pill.show{display:flex}
+.user-pill.show{
+    display:flex;
+}
 
 .user-avatar{
     width:32px;
     height:32px;
     border-radius:50%;
-    background:#183d68;
-    color:#8ec5ff;
+    background:linear-gradient(135deg,#0077ff,#00c3ff);
+    color:#fff;
     display:grid;
     place-items:center;
     font-weight:800;
     font-size:13px;
-    overflow:hidden;
     flex-shrink:0;
-}
-
-.user-avatar img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
 }
 
 .user-name{
     font-size:12px;
     font-weight:700;
     color:#d7e6ff;
-    max-width:120px;
+    max-width:130px;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
 }
 
-.login-header-btn{
-    display:none;
-    border:none;
+.login-link{
+    text-decoration:none;
     border-radius:30px;
     padding:9px 14px;
-    background:linear-gradient(110deg,#3475ff,#2860dc);
+    background:linear-gradient(135deg,#0077ff,#00c3ff);
     color:#fff;
     font-size:11px;
     font-weight:800;
-    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
 }
 
-.login-header-btn.show{display:inline-flex;align-items:center;gap:8px}
+.login-link.hide{
+    display:none;
+}
 
 main{
     width:100%;
@@ -171,68 +169,6 @@ main{
     padding:65px 22px 50px;
     margin:auto;
 }
-
-/* شاشة تسجيل الدخول داخل الرئيسية */
-.auth-gate{
-    display:none;
-    max-width:460px;
-    margin:0 auto 40px;
-    text-align:center;
-    background:linear-gradient(145deg,rgba(24,38,68,.83),rgba(12,21,40,.94));
-    border:1px solid rgba(115,153,220,.17);
-    border-radius:23px;
-    padding:28px 24px;
-    box-shadow:0 20px 65px rgba(0,0,0,.25);
-}
-
-.auth-gate.show{display:block !important}
-
-.auth-gate h3{
-    font-size:18px;
-    font-weight:900;
-    margin-bottom:10px;
-}
-
-.auth-gate p{
-    color:#91a5bd;
-    font-size:13px;
-    line-height:1.7;
-    margin-bottom:20px;
-}
-
-.continue-btn{
-    width:100%;
-    min-height:54px;
-    border:none;
-    border-radius:14px;
-    background:linear-gradient(110deg,#3475ff,#2860dc);
-    color:white;
-    font-size:14px;
-    font-weight:800;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    box-shadow:0 8px 25px rgba(47,107,255,.25);
-}
-
-.continue-btn img{
-    width:24px;
-    height:24px;
-    border-radius:6px;
-    background:#fff;
-    object-fit:cover;
-}
-
-.auth-status{
-    display:none;
-    margin-top:14px;
-    color:#8dbaff;
-    font-size:12px;
-}
-
-.auth-status.show{display:block}
 
 .welcome{
     text-align:center;
@@ -399,6 +335,7 @@ footer span{color:#8297b8}
     .brand img{width:43px;height:43px}
     .brand-info h2{font-size:16px}
     .header-tag{font-size:8px;padding:8px 9px}
+    .user-name{max-width:85px;font-size:11px}
     main{padding:55px 17px 35px}
     .levels{grid-template-columns:1fr;gap:13px}
     .level{
@@ -437,32 +374,16 @@ footer span{color:#8297b8}
     <div class="header-right">
         <div class="header-tag">BRAIN GAMES</div>
 
-        <!-- يظهر عند تسجيل الدخول -->
         <div class="user-pill" id="userPill">
-            <div class="user-avatar" id="userAvatar">U</div>
+            <div class="user-avatar" id="userAvatar">AI</div>
             <span class="user-name" id="userName">User</span>
         </div>
 
-        <!-- يظهر إذا غير مسجل -->
-        <button class="login-header-btn" id="headerLoginBtn">
-            <img src="https://alislamiah.github.io/Alislamiah-AI/icon.png" width="16" height="16" style="border-radius:4px;background:#fff">
-            Sign in
-        </button>
+        <a href="signin.html" class="login-link" id="loginLink">Sign in</a>
     </div>
 </header>
 
 <main>
-
-    <!-- بوابة تسجيل الدخول (تظهر فقط لغير المسجلين) -->
-    <div class="auth-gate" id="authGate">
-        <h3>سجّل دخولك أولاً</h3>
-        <p>للمتابعة، سجّل الدخول عبر حساب Alislamiah AI</p>
-        <button class="continue-btn" id="mainLoginBtn">
-            <img src="https://alislamiah.github.io/Alislamiah-AI/icon.png" alt="Alislamiah AI">
-            <span>Continue with Alislamiah AI</span>
-        </button>
-        <div class="auth-status" id="authStatus">Opening Alislamiah AI...</div>
-    </div>
 
     <section class="welcome">
         <div class="small">WELCOME TO SUDOKU</div>
@@ -530,173 +451,40 @@ footer span{color:#8297b8}
 </div>
 
 <script>
-const AI_URL = "https://alislamiah.github.io/Alislamiah-AI/continue.html";
+function startGame(level) {
+    localStorage.setItem("sudoku_difficulty", level);
+    window.location.href = "game.html";
+}
 
-const authGate = document.getElementById("authGate");
-const userPill = document.getElementById("userPill");
-const userAvatar = document.getElementById("userAvatar");
-const userName = document.getElementById("userName");
-const headerLoginBtn = document.getElementById("headerLoginBtn");
-const mainLoginBtn = document.getElementById("mainLoginBtn");
-const authStatus = document.getElementById("authStatus");
+function applyUserUI(user) {
+    const userPill = document.getElementById("userPill");
+    const userAvatar = document.getElementById("userAvatar");
+    const userName = document.getElementById("userName");
+    const loginLink = document.getElementById("loginLink");
 
-let authWindow = null;
-let waitingForAuth = false;
+    if (user && (user.name || user.email || user.id)) {
+        const label = user.name || user.email || "User";
+        userName.textContent = label;
+        userAvatar.textContent = label.trim().charAt(0).toUpperCase() || "A";
+        userPill.classList.add("show");
+        loginLink.classList.add("hide");
+    } else {
+        userPill.classList.remove("show");
+        loginLink.classList.remove("hide");
+    }
+}
 
-function getSession() {
+function loadStoredUser() {
     try {
-        const raw = localStorage.getItem("aatb_games_session");
+        const raw = localStorage.getItem("alislamiah_current_user");
         if (!raw) return null;
-        const session = JSON.parse(raw);
-        if (session && session.uid && session.accessToken) return session;
-        return null;
+        return JSON.parse(raw);
     } catch (e) {
         return null;
     }
 }
 
-function setLoggedInUI(session) {
-    // المستخدم مسجّل → لا تطلب منه تسجيل الدخول أبدًا
-    authGate.classList.remove("show");
-    authGate.style.display = "none";
-    headerLoginBtn.classList.remove("show");
-    headerLoginBtn.style.display = "none";
-    userPill.classList.add("show");
-    userPill.style.display = "flex";
-
-    const name = session.displayName || session.email || "User";
-    userName.textContent = name;
-
-    if (session.photoURL) {
-        userAvatar.innerHTML = `<img src="${session.photoURL}" alt="">`;
-    } else {
-        userAvatar.textContent = name.charAt(0).toUpperCase();
-    }
-
-    authStatus.classList.remove("show");
-    waitingForAuth = false;
-}
-
-function setLoggedOutUI() {
-    authGate.classList.add("show");
-    authGate.style.display = "block";
-    headerLoginBtn.classList.add("show");
-    headerLoginBtn.style.display = "inline-flex";
-    userPill.classList.remove("show");
-    userPill.style.display = "none";
-}
-
-function updateUI() {
-    const session = getSession();
-    if (session) {
-        setLoggedInUI(session);
-    } else {
-        setLoggedOutUI();
-    }
-}
-
-function openLogin() {
-    // إذا مسجّل مسبقًا لا تفتح تسجيل الدخول
-    const session = getSession();
-    if (session) {
-        setLoggedInUI(session);
-        return;
-    }
-
-    waitingForAuth = true;
-    authStatus.textContent = "Opening Alislamiah AI account selection...";
-    authStatus.classList.add("show");
-
-    const url = AI_URL + "?provider=alislamiah&app_id=aatb-games";
-
-    authWindow = window.open(
-        url,
-        "AlislamiahAuthentication",
-        "width=520,height=720,left=200,top=80"
-    );
-
-    if (!authWindow) {
-        waitingForAuth = false;
-        authStatus.textContent = "Please allow popups to continue.";
-        return;
-    }
-
-    const popupWatcher = setInterval(() => {
-        if (!authWindow || authWindow.closed) {
-            clearInterval(popupWatcher);
-            if (waitingForAuth) {
-                updateUI();
-                if (getSession()) {
-                    authStatus.textContent = "Signed in successfully!";
-                    authStatus.classList.add("show");
-                }
-                waitingForAuth = false;
-            }
-        }
-    }, 400);
-}
-
-function startGame(level) {
-    const session = getSession();
-    if (!session) {
-        openLogin();
-        return;
-    }
-    localStorage.setItem("sudoku_difficulty", level);
-    window.location.href = "game.html";
-}
-
-headerLoginBtn.addEventListener("click", openLogin);
-mainLoginBtn.addEventListener("click", openLogin);
-
-window.addEventListener("focus", () => {
-    updateUI();
-    if (waitingForAuth && getSession()) {
-        authStatus.textContent = "Signed in successfully!";
-        authStatus.classList.add("show");
-        waitingForAuth = false;
-    }
-});
-
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        updateUI();
-        if (waitingForAuth && getSession()) {
-            authStatus.textContent = "Signed in successfully!";
-            authStatus.classList.add("show");
-            waitingForAuth = false;
-        }
-    }
-});
-
-window.addEventListener("message", (event) => {
-    if (event.origin !== "https://alislamiah.github.io") return;
-
-    const data = event.data;
-    if (!data || data.status !== "SUCCESS") return;
-    if (!data.accessToken || !data.user || !data.user.uid) return;
-
-    const session = {
-        uid: data.user.uid,
-        email: data.user.email || "",
-        displayName: data.user.displayName || "",
-        photoURL: data.user.photoURL || "",
-        providerUsed: data.user.providerUsed || "alislamiah",
-        accessToken: data.accessToken,
-        loginTime: Date.now()
-    };
-
-    localStorage.setItem("aatb_games_session", JSON.stringify(session));
-
-    if (authWindow && !authWindow.closed) {
-        try { authWindow.close(); } catch (e) {}
-    }
-
-    waitingForAuth = false;
-    setLoggedInUI(session);
-    authStatus.textContent = "Signed in successfully!";
-    authStatus.classList.add("show");
-});
+applyUserUI(loadStoredUser());
 
 const splash = document.getElementById("splash");
 const app = document.getElementById("app");
@@ -706,9 +494,38 @@ setTimeout(() => {
     app.classList.add("show");
     setTimeout(() => { splash.style.display = "none"; }, 750);
 }, 5000);
+</script>
 
-// مهم: فحص فوري قبل أي عرض
-updateUI();
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBrv1ky0Br5nLb68uvdXE3o6QdzTKpIU4g",
+    authDomain: "alislamiah-ai-34202.firebaseapp.com",
+    projectId: "alislamiah-ai-34202",
+    storageBucket: "alislamiah-ai-34202.firebasestorage.app",
+    messagingSenderId: "683051452829",
+    appId: "1:683051452829:web:e96e40422c7f31e563c774",
+    measurementId: "G-LFQLND010S"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+
+onAuthStateChanged(auth, (fbUser) => {
+    if (fbUser) {
+        const currentUser = {
+            id: fbUser.uid,
+            name: fbUser.displayName || (fbUser.email ? fbUser.email.split("@")[0] : "User"),
+            email: fbUser.email || ""
+        };
+        localStorage.setItem("alislamiah_current_user", JSON.stringify(currentUser));
+        applyUserUI(currentUser);
+    } else if (!localStorage.getItem("alislamiah_current_user")) {
+        applyUserUI(null);
+    }
+});
 </script>
 
 </body>
