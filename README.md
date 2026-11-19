@@ -93,6 +93,12 @@ header{
     letter-spacing:1.2px;
 }
 
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
 .header-tag{
     font-size:10px;
     font-weight:800;
@@ -103,12 +109,130 @@ header{
     border:1px solid rgba(75,130,255,.2);
 }
 
+.user-pill{
+    display:none;
+    align-items:center;
+    gap:10px;
+    background:rgba(49,112,255,.12);
+    border:1px solid rgba(75,130,255,.25);
+    border-radius:30px;
+    padding:6px 12px 6px 6px;
+}
+
+.user-pill.show{display:flex}
+
+.user-avatar{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:#183d68;
+    color:#8ec5ff;
+    display:grid;
+    place-items:center;
+    font-weight:800;
+    font-size:13px;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.user-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.user-name{
+    font-size:12px;
+    font-weight:700;
+    color:#d7e6ff;
+    max-width:120px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.login-header-btn{
+    display:none;
+    border:none;
+    border-radius:30px;
+    padding:9px 14px;
+    background:linear-gradient(110deg,#3475ff,#2860dc);
+    color:#fff;
+    font-size:11px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.login-header-btn.show{display:inline-flex;align-items:center;gap:8px}
+
 main{
     width:100%;
     max-width:950px;
     padding:65px 22px 50px;
     margin:auto;
 }
+
+/* شاشة تسجيل الدخول داخل الرئيسية */
+.auth-gate{
+    display:none;
+    max-width:460px;
+    margin:0 auto 40px;
+    text-align:center;
+    background:linear-gradient(145deg,rgba(24,38,68,.83),rgba(12,21,40,.94));
+    border:1px solid rgba(115,153,220,.17);
+    border-radius:23px;
+    padding:28px 24px;
+    box-shadow:0 20px 65px rgba(0,0,0,.25);
+}
+
+.auth-gate.show{display:block}
+
+.auth-gate h3{
+    font-size:18px;
+    font-weight:900;
+    margin-bottom:10px;
+}
+
+.auth-gate p{
+    color:#91a5bd;
+    font-size:13px;
+    line-height:1.7;
+    margin-bottom:20px;
+}
+
+.continue-btn{
+    width:100%;
+    min-height:54px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(110deg,#3475ff,#2860dc);
+    color:white;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    box-shadow:0 8px 25px rgba(47,107,255,.25);
+}
+
+.continue-btn img{
+    width:24px;
+    height:24px;
+    border-radius:6px;
+    background:#fff;
+    object-fit:cover;
+}
+
+.auth-status{
+    display:none;
+    margin-top:14px;
+    color:#8dbaff;
+    font-size:12px;
+}
+
+.auth-status.show{display:block}
 
 .welcome{
     text-align:center;
@@ -249,32 +373,16 @@ main{
     font-size:25px;
 }
 
-.easy .level-icon{
-    background:rgba(44,210,145,.13);
-}
+.easy .level-icon{background:rgba(44,210,145,.13)}
+.medium .level-icon{background:rgba(255,179,58,.13)}
+.hard .level-icon{background:rgba(255,82,99,.13)}
 
-.medium .level-icon{
-    background:rgba(255,179,58,.13);
-}
+.level h3{font-size:17px;font-weight:900}
+.level p{color:#8191ac;font-size:11px;margin-top:8px}
 
-.hard .level-icon{
-    background:rgba(255,82,99,.13);
-}
-
-.level h3{
-    font-size:17px;
-    font-weight:900;
-}
-
-.level p{
-    color:#8191ac;
-    font-size:11px;
-    margin-top:8px;
-}
-
-.easy h3{color:#5cdeb0;}
-.medium h3{color:#ffc16b;}
-.hard h3{color:#ff7887;}
+.easy h3{color:#5cdeb0}
+.medium h3{color:#ffc16b}
+.hard h3{color:#ff7887}
 
 footer{
     text-align:center;
@@ -284,38 +392,15 @@ footer{
     line-height:2;
 }
 
-footer span{
-    color:#8297b8;
-}
+footer span{color:#8297b8}
 
 @media(max-width:600px){
-    header{
-        padding:19px 17px;
-    }
-
-    .brand img{
-        width:43px;
-        height:43px;
-    }
-
-    .brand-info h2{
-        font-size:16px;
-    }
-
-    .header-tag{
-        font-size:8px;
-        padding:8px 9px;
-    }
-
-    main{
-        padding:55px 17px 35px;
-    }
-
-    .levels{
-        grid-template-columns:1fr;
-        gap:13px;
-    }
-
+    header{padding:19px 17px}
+    .brand img{width:43px;height:43px}
+    .brand-info h2{font-size:16px}
+    .header-tag{font-size:8px;padding:8px 9px}
+    main{padding:55px 17px 35px}
+    .levels{grid-template-columns:1fr;gap:13px}
     .level{
         min-height:125px;
         display:flex;
@@ -324,23 +409,10 @@ footer span{
         gap:17px;
         padding:20px;
     }
-
-    .level-icon{
-        margin:0;
-        flex-shrink:0;
-    }
-
-    .level-info{
-        flex:1;
-    }
-
-    .level h3{
-        font-size:17px;
-    }
-
-    .learn-card{
-        padding:18px;
-    }
+    .level-icon{margin:0;flex-shrink:0}
+    .level-info{flex:1}
+    .level h3{font-size:17px}
+    .learn-card{padding:18px}
 }
 </style>
 </head>
@@ -354,104 +426,98 @@ footer span{
 <div class="app" id="app">
 
 <header>
-
     <div class="brand">
         <img src="icon.png" alt="Sudoku">
-
         <div class="brand-info">
             <h2>Sudoku</h2>
             <p>ALISLAMIAH AATB GAMES</p>
         </div>
     </div>
 
-    <div class="header-tag">
-        BRAIN GAMES
-    </div>
+    <div class="header-right">
+        <div class="header-tag">BRAIN GAMES</div>
 
+        <!-- يظهر عند تسجيل الدخول -->
+        <div class="user-pill" id="userPill">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <span class="user-name" id="userName">User</span>
+        </div>
+
+        <!-- يظهر إذا غير مسجل -->
+        <button class="login-header-btn" id="headerLoginBtn">
+            <img src="https://alislamiah.github.io/Alislamiah-AI/icon.png" width="16" height="16" style="border-radius:4px;background:#fff">
+            Sign in
+        </button>
+    </div>
 </header>
 
 <main>
 
+    <!-- بوابة تسجيل الدخول (تظهر فقط لغير المسجلين) -->
+    <div class="auth-gate" id="authGate">
+        <h3>سجّل دخولك أولاً</h3>
+        <p>للمتابعة، سجّل الدخول عبر حساب Alislamiah AI</p>
+        <button class="continue-btn" id="mainLoginBtn">
+            <img src="https://alislamiah.github.io/Alislamiah-AI/icon.png" alt="Alislamiah AI">
+            <span>Continue with Alislamiah AI</span>
+        </button>
+        <div class="auth-status" id="authStatus">Opening Alislamiah AI...</div>
+    </div>
+
     <section class="welcome">
-
         <div class="small">WELCOME TO SUDOKU</div>
-
         <h1>
             Challenge Your<br>
             <span>Mind.</span>
         </h1>
-
         <p>
             Train your brain, improve your logic<br>
             and become a Sudoku master.
         </p>
-
     </section>
 
     <a href="learn.html" class="learn-card">
-
         <div class="learn-left">
-
             <div class="learn-icon">📘</div>
-
             <div class="learn-text">
                 <h3>You're beginner? Learn Sudoku ♂️</h3>
                 <p>Learn the rules and start your journey</p>
             </div>
-
         </div>
-
         <div class="arrow">›</div>
-
     </a>
 
     <section>
-
         <div class="section-title">
             <h2>Play as</h2>
             <p>Choose your difficulty level</p>
         </div>
 
         <div class="levels">
-
-            <button class="level easy"
-            onclick="startGame('easy')">
-
+            <button class="level easy" onclick="startGame('easy')">
                 <div class="level-icon">🌱</div>
-
                 <div class="level-info">
                     <h3>Easy</h3>
                     <p>Perfect for beginners</p>
                 </div>
-
             </button>
 
-            <button class="level medium"
-            onclick="startGame('medium')">
-
+            <button class="level medium" onclick="startGame('medium')">
                 <div class="level-icon">⚡</div>
-
                 <div class="level-info">
                     <h3>Medium</h3>
                     <p>Test your logic skills</p>
                 </div>
-
             </button>
 
-            <button class="level hard"
-            onclick="startGame('hard')">
-
+            <button class="level hard" onclick="startGame('hard')">
                 <div class="level-icon">🔥</div>
-
                 <div class="level-info">
                     <h3>Hard</h3>
                     <p>For Sudoku experts</p>
                 </div>
-
             </button>
-
         </div>
-
     </section>
 
 </main>
@@ -464,41 +530,181 @@ footer span{
 </div>
 
 <script>
-// ===== Shared session helper (must match signin.html) =====
-function hasValidSession() {
+const AI_URL = "https://alislamiah.github.io/Alislamiah-AI/continue.html";
+
+const authGate = document.getElementById("authGate");
+const userPill = document.getElementById("userPill");
+const userAvatar = document.getElementById("userAvatar");
+const userName = document.getElementById("userName");
+const headerLoginBtn = document.getElementById("headerLoginBtn");
+const mainLoginBtn = document.getElementById("mainLoginBtn");
+const authStatus = document.getElementById("authStatus");
+
+let authWindow = null;
+let waitingForAuth = false;
+
+function getSession() {
     try {
         const raw = localStorage.getItem("aatb_games_session");
-        if (!raw) return false;
+        if (!raw) return null;
         const session = JSON.parse(raw);
-        return !!(session && session.uid && session.accessToken);
+        if (session && session.uid && session.accessToken) return session;
+        return null;
     } catch (e) {
-        localStorage.removeItem("aatb_games_session");
-        return false;
+        return null;
     }
 }
 
-// If no valid session → go to signin immediately
-if (!hasValidSession()) {
-    window.location.replace("signin.html");
+function updateUI() {
+    const session = getSession();
+
+    if (session) {
+        // مسجل دخول
+        authGate.classList.remove("show");
+        headerLoginBtn.classList.remove("show");
+        userPill.classList.add("show");
+
+        const name = session.displayName || session.email || "User";
+        userName.textContent = name;
+
+        if (session.photoURL) {
+            userAvatar.innerHTML = `<img src="${session.photoURL}" alt="">`;
+        } else {
+            userAvatar.textContent = name.charAt(0).toUpperCase();
+        }
+
+        authStatus.classList.remove("show");
+        waitingForAuth = false;
+    } else {
+        // غير مسجل
+        authGate.classList.add("show");
+        headerLoginBtn.classList.add("show");
+        userPill.classList.remove("show");
+    }
 }
 
-// Splash animation
+function openLogin() {
+    waitingForAuth = true;
+    authStatus.textContent = "Opening Alislamiah AI account selection...";
+    authStatus.classList.add("show");
+
+    const url = AI_URL + "?provider=alislamiah&app_id=aatb-games";
+
+    authWindow = window.open(
+        url,
+        "AlislamiahAuthentication",
+        "width=520,height=720,left=200,top=80"
+    );
+
+    if (!authWindow) {
+        waitingForAuth = false;
+        authStatus.textContent = "Please allow popups to continue.";
+        return;
+    }
+
+    // نفس مبدأ صفحة التسجيل: راقب إغلاق نافذة continue
+    const popupWatcher = setInterval(() => {
+        if (!authWindow || authWindow.closed) {
+            clearInterval(popupWatcher);
+            if (waitingForAuth) {
+                // عاد من continue → حدّث الواجهة مباشرة
+                updateUI();
+                if (getSession()) {
+                    authStatus.textContent = "Signed in successfully!";
+                    authStatus.classList.add("show");
+                } else {
+                    authStatus.textContent = "Returned. If you selected an account, refresh or try again.";
+                    authStatus.classList.add("show");
+                }
+                waitingForAuth = false;
+            }
+        }
+    }, 400);
+}
+
+function startGame(level) {
+    if (!getSession()) {
+        openLogin();
+        return;
+    }
+    localStorage.setItem("sudoku_difficulty", level);
+    window.location.href = "game.html";
+}
+
+headerLoginBtn.addEventListener("click", openLogin);
+mainLoginBtn.addEventListener("click", openLogin);
+
+// عند رجوع التركيز من continue → حدّث مباشرة (نفس مبدأ signin)
+window.addEventListener("focus", () => {
+    if (waitingForAuth) {
+        updateUI();
+        if (getSession()) {
+            authStatus.textContent = "Signed in successfully!";
+            authStatus.classList.add("show");
+            waitingForAuth = false;
+        }
+    } else {
+        updateUI();
+    }
+});
+
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        if (waitingForAuth) {
+            updateUI();
+            if (getSession()) {
+                authStatus.textContent = "Signed in successfully!";
+                authStatus.classList.add("show");
+                waitingForAuth = false;
+            }
+        } else {
+            updateUI();
+        }
+    }
+});
+
+// استقبال postMessage من continue
+window.addEventListener("message", (event) => {
+    if (event.origin !== "https://alislamiah.github.io") return;
+
+    const data = event.data;
+    if (!data || data.status !== "SUCCESS") return;
+    if (!data.accessToken || !data.user || !data.user.uid) return;
+
+    const session = {
+        uid: data.user.uid,
+        email: data.user.email || "",
+        displayName: data.user.displayName || "",
+        photoURL: data.user.photoURL || "",
+        providerUsed: data.user.providerUsed || "alislamiah",
+        accessToken: data.accessToken,
+        loginTime: Date.now()
+    };
+
+    localStorage.setItem("aatb_games_session", JSON.stringify(session));
+
+    if (authWindow && !authWindow.closed) {
+        try { authWindow.close(); } catch (e) {}
+    }
+
+    waitingForAuth = false;
+    authStatus.textContent = "Signed in successfully!";
+    authStatus.classList.add("show");
+    updateUI();
+});
+
+// Splash
 const splash = document.getElementById("splash");
 const app = document.getElementById("app");
 
 setTimeout(() => {
     splash.classList.add("hide");
     app.classList.add("show");
-
-    setTimeout(() => {
-        splash.style.display = "none";
-    }, 750);
+    setTimeout(() => { splash.style.display = "none"; }, 750);
 }, 5000);
 
-function startGame(level) {
-    localStorage.setItem("sudoku_difficulty", level);
-    window.location.href = "game.html";
-}
+// أول تحميل
+updateUI();
 </script>
 
 </body>
